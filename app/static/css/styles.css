@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+html {
+    font-family: 'Montserrat';
+}
+
+.section-stats .card-panel {
+    margin:8px;
+}
+
+.row {
+    margin:0!important;
+}
+
+form ul li.category {
+    display: inline-block;
+    background-color: white;
+    padding: 5px 10px;
+    margin-right:5px;
+}
+
+.section-expenses .close-icon:hover {
+    cursor: pointer;
+}
