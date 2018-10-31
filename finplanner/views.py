@@ -31,6 +31,9 @@ def register(request):
                     user.save()
                     messages.success(request,"You are now registered and can log in")
                     return redirect('login')
+        else:
+            messages.error(request,"You passwords do not match")
+            return redirect('register')
     else:
         return render(request,'registration/register.html')
 def login(request):
