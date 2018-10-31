@@ -32,7 +32,7 @@ def register(request):
                     messages.success(request,"You are now registered and can log in")
                     return redirect('login')
     else:
-        return render(request,'accounts/register.html')
+        return render(request,'registration/register.html')
 def login(request):
         if request.method == 'POST':
             username=request.POST['username']
@@ -51,10 +51,10 @@ def login(request):
             print('SUBMIT')
             # return redirect('register')
         else:
-            return render(request,'accounts/login.html')
+            return render(request,'registration/login.html')
 def dashboard(request):
 
-    return render(request,'accounts/dashboard.html')
+    return render(request,'register/dashboard.html')
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
