@@ -5,9 +5,10 @@
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+ {% if user.is_authenticated%}
 <nav class="navbar fixed-top" id="navbarr">
 <div class="container">
-    <section class="logo-section"><a href="{% url "index" %}"><img class="logo" src="/static/img/py3.png"  style="width:180px;height:60px;"alt="/></a>
+    <section class="logo-section"><a href="{% url "index" %}"></a>
 
       <a href="{% url "index" %}">HOME</a>
     </section>
@@ -28,12 +29,12 @@
 
 
 
-      <a href="/logout">LOGOUT</a>
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> LOGOUT </a>
 
 
 </section>
     </div>
   </nav>
-
+{% endif%}
 <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
