@@ -1,0 +1,110 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class=" ">
+    <nav>
+        <div class="nav-wrapper blue-grey">
+            <a href="#!" class="brand-logo" style="text-decoration:none">Bloggy</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="signup.php" class="btn waves-effect waves-light deep-orange lighten-2">Sign Up</a></li>
+                <li><a href="login.php" class="btn waves-effect waves-light deep-orange lighten-2">Login</a></li>
+                <li><a href="contactUs.php" class="btn waves-effect waves-light deep-orange lighten-2">Contact Us</a></li>
+
+            </ul>
+            <form class=" hide-on-med-and-down" id="form1">
+                <div class="input-field" style="max-width: 400pt;">
+                    <input id="search" type="search" required onkeyup="getBlogs(this.value,0);">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                    <div id="searchResults"></div>
+                </div>
+            </form>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="signup.php">Sign Up</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="conactUs.php">Contact Us</a></li>
+                <li class="search">
+                    <div class="search-wrapper card input-field">
+                        <input type="search" required onkeyup="getBlogs(this.value,1);">
+                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                        <div id="searchResults2"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<html>
+
+<head>
+    <title>Mega Menus</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<div class="navbar-fixed">
+    <div class=" blocks-menus">
+        <div class="container">
+            <ul class="primary-menus">
+                <li><a href="#">Home</a></li>
+                <li class="menus-dropdown">
+                    <a href="#">Menu Dropdown <i class="fa fa-angle-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="#">Submenu 1</a></li>
+                        <li><a href="#">Submenu 2</a></li>
+                        <li><a href="#">Submenu 3</a></li>
+                        <li><a href="#">Submenu 1</a></li>
+                        <li><a href="#">Submenu 2</a></li>
+                        <li><a href="#">Submenu 3</a></li>
+                        <li><a href="#">Submenu 1</a></li>
+                        <li><a href="#">Submenu 2</a></li>
+                        <li><a href="#">Submenu 3</a></li>
+                    </ul>
+                </li>
+                <li class="menus-dropdown">
+                    <a href="#">Menu Dropdown <i class="fa fa-angle-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="#">Submenu 1</a></li>
+                        <li><a href="#">Submenu 2</a></li>
+                        <li><a href="#">Submenu 3</a></li>
+                        <li><a href="#">Submenu 1</a></li>
+                        <li><a href="#">Submenu 2</a></li>
+                        <li><a href="#">Submenu 3</a></li>
+                        <li><a href="#">Submenu 1</a></li>
+                        <li><a href="#">Submenu 2</a></li>
+                        <li><a href="#">Submenu 3</a></li>
+                    </ul>
+                </li>
+                <li class="menus-megamenus">
+                    <a href="#">Mega Menu <i class="fa fa-angle-down"></i></a>
+                    <ul class="mega-menus">
+                        <div class="section">
+                            <h3>Pages 1</h3>
+                            <li><a href="#">Submenu 1</a></li>
+                            <li><a href="#">Submenu 2</a></li>
+                            <li><a href="#">Submenu 3</a></li>
+                        </div>
+                        <div class="section">
+                            <h3>Pages 2</h3>
+                            <li><a href="#">Submenu 1</a></li>
+                            <li><a href="#">Submenu 2</a></li>
+                            <li><a href="#">Submenu 3</a></li>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
