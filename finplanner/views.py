@@ -1,13 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages,auth
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-def index(request):
 
-
-    return render(request,'index.html')
 
 def register(request):
     if request.method == 'POST':
@@ -58,8 +56,15 @@ def login(request):
 def dashboard(request):
 
     return render(request,'register/dashboard.html')
+
+@login_required(login_url='/login/')
+
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         messages.success(request,"You are now logged out")
-        return redirect('index')
+        return redirect('login')
+@login_required(login_url='/login/')
+def index(request):
+
+    return render(request,'index.html')
