@@ -3,7 +3,7 @@ from django.contrib import messages,auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from finplanner.models import *
-from finplanner.forms import *
+from finplanner.forms import SignupForm
 
 
 # Create your views here.
@@ -21,24 +21,18 @@ def register(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('index')
+            return redirect('login')
     else:
         form = SignUpForm()
 
-    return render(request, 'registration/registration.html', {'form': form})
+    return render(request, 'registration/registration_form.html', {'form': form})
+@login_required(login_url='/accounts/login/')
+def login(request):
+
+    return render(request, 'registration/login.html')
 
 def dashboard(request):
 
     return render(request,'register/dashboard.html')
 
-@login_required(login_url='/login/')
-
-def logout(request):
-    if request.method == 'POST':
-        auth.logout(request)
-        messages.success(request,"You are now logged out")
-        return redirect('login')
-@login_required(login_url='/login/')
-def index(request):
-
-    return render(request,'index.html')
+    
