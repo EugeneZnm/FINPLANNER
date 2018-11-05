@@ -7,21 +7,25 @@ from datetime import datetime
 from django.utils.text import slugify
 
 # Create your models here.
-class Profile(models.Model):
+class Bank(models.Model):
     BANKS = (
         ('Standard Chartered', 'Standard Chartered'),
         ('KCB', 'KCB'),
         ('Equity', 'EQUITY'),
     )
+    bank = models.CharField(max_length=100, choices=BANKS,default="")
 
-    # bio = models.CharField(max_length=60,blank=True)
-    # user = models.ForeignKey(User, null=True)
+    def __str__(self):
+        return self.bank
+
+class Profile(models.Model):
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile",primary_key=True)
     contact = models.CharField(max_length=60,blank=True)
-    # timestamp = models.DateTimeField(auto_now_add=True)
 
     timestamp = models.DateTimeField(default=timezone.now,blank=True)
-    bank = models.CharField(max_length=100, choices=BANKS,default="")   # timestamp = models.DateTimeField(auto_now_add=True,null = True)
+    # bank = models.ForeignKey(Bank,on_delete=models.CASCADE, null=True)
+
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -60,6 +64,7 @@ class Profile(models.Model):
         return profile
 
 class Account(models.Model):
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE,null=True,related_name="account")
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     budget = models.IntegerField()
