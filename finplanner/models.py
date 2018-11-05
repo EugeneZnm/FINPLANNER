@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from datetime import datetime
+from django.utils.text import slugify
 
 # Create your models here.
 class Profile(models.Model):
@@ -57,3 +58,29 @@ class Profile(models.Model):
     def get_by_id(cls, id):
         profile = Profile.objects.get(user = id)
         return profile
+
+class Account(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    budget = models.IntegerField()
+
+    def save_account(self):
+        self.save()
+
+    def budget_left(self):
+        expense_list = Expense.objects.filter(account = self)
+        total_expense = 0
+        for expense in expense_list:
+            total_expense += expense.amount
+        return self.budget - total_expense
+
+class Category(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+class Expense(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="expenses")
+    title = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    class Meta:
+        ordering = ('-amount',)

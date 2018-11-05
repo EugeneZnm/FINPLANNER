@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from finplanner.models import *
 from finplanner.forms import *
+from django.views.generic import CreateView
+from django.utils.text import slugify
 
 
 # Create your views here.
@@ -59,3 +61,33 @@ def edit_profile(request):
         form = ProfileForm()
 
     return render(request, 'edit_profile.html', {'form':form, 'profile':profile})
+
+# END PROFILE
+
+# ACCOUNT
+
+def account_list(request):
+    account_list = Account.objects.all()
+    return render(request, 'account-list.html')
+
+# create account view
+class AccountCreateView(CreateView):
+    model = Account
+    template_name= 'add-account.html'
+    fields = ('name', 'budget')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+
+        categories = self.request.POST['categoriesString'].split(',')
+        for category in categories:
+            Category.objects.create(
+                account=Account.objects.get(id=self.object.id),
+                name=category
+            ).save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return slugify(self.request.POST['name'])

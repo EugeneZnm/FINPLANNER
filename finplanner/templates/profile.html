@@ -9,9 +9,8 @@
 
                 <div class="col-md-5" style="font-size: 18px;">
                     {{ profile.username }}
-                    {{ profile_info.bank }}
                     {{ profile_info.contact }}
-
+                     <a href="{% url 'list' %}" >{{profile_info.bank }}</a>
 
                     {% if profile.username == user.username %}
                     <a href="{% url 'edit_profile' %}">Edit Profile</a>
