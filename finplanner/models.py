@@ -64,8 +64,11 @@ class Account(models.Model):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     budget = models.IntegerField()
 
-    def save_account(self):
-        self.save()
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Account, self).save(*args, **kwargs)
+    # def save_account(self):
+    #     self.save()
 
     def budget_left(self):
         expense_list = Expense.objects.filter(account = self)
@@ -73,6 +76,9 @@ class Account(models.Model):
         for expense in expense_list:
             total_expense += expense.amount
         return self.budget - total_expense
+
+    def __str__(self):
+        return self.name
 
 class Category(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)

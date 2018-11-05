@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
+from django.http  import HttpResponse, HttpResponseRedirect
 from django.contrib import messages,auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -6,6 +7,7 @@ from finplanner.models import *
 from finplanner.forms import *
 from django.views.generic import CreateView
 from django.utils.text import slugify
+import json
 
 
 # Create your views here.
@@ -68,9 +70,42 @@ def edit_profile(request):
 
 def account_list(request):
     account_list = Account.objects.all()
-    return render(request, 'account-list.html')
+    print(account_list)
+    return render(request, 'account-list.html',{"account_list":account_list})
 
 # create account view
+def account_detail(request, account_slug):
+    account = get_object_or_404(Account, slug=account_slug)
+
+    # expense_list = Account.expenses.all()
+    # expense_list = Expense.objects.all()
+
+
+    if request.method == 'GET':
+        category_list = Category.objects.filter(account=account)
+        return render(request, 'account-detail.html', {'account':account,  'category_list':category_list,"expense_list":account.expenses.all()})
+
+    elif request.method == 'POST':
+        form = ExpenseForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            amount = form.cleaned_data['amount']
+            category_name = form.cleaned_data['category']
+
+            category = get_object_or_404(Category, account=account, name=category_name)
+
+            Expense.objects.create(account=account, title=title, amount=amount, category=category).save()
+
+    elif request.method == 'DELETE':
+        id = json.loads(request.body)['id']
+        expense = get_object_or_404(Expense, id=id)
+        expense.delete()
+
+        return HttpResponse('')
+
+    return HttpResponseRedirect(account_slug)
+
+
 class AccountCreateView(CreateView):
     model = Account
     template_name= 'add-account.html'

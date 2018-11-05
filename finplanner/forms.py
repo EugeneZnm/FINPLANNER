@@ -12,3 +12,8 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ['user','timestamp']
+
+class ExpenseForm(forms.Form):
+    title = forms.CharField()
+    amount = forms.IntegerField()
+    category = forms.CharField()

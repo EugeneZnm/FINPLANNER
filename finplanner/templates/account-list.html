@@ -14,16 +14,10 @@
 
         <div class="row">
         {% for account in account_list %}
-        <div class="col s12 l3">
-            <div class="card-panel">
-                <h5>Total Accounts</h5>
-                <p>{{ account.budget }}</p>
-            </div>
-        </div>
             <div class="col s12 l3">
                 <div class="card-panel">
                     <h5>{{account.name}}</h5>
-                    <a href="" class="btn">Visit</a>
+                    <a href="{% url 'detail' account.slug %}" class="btn">Visit</a>
                 </div>
             </div>
         {% empty %}
