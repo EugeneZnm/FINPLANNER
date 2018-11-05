@@ -130,3 +130,21 @@ class AccountCreateView(CreateView):
 
     def get_success_url(self):
         return slugify(self.request.POST['name'])
+
+@login_required(login_url='/accounts/login/')
+def new_account(request,bank_id):
+    bank = get_object_or_404(Bank, pk=bank_id)
+    current_user = request.user
+    if request.method == 'POST':
+        form = AccountForm(request.POST,request.FILES)
+        if form.is_valid():
+            new_account = form.save(commit=False)
+            new_account.user = current_user
+            new_account.bank=bank
+            assert isinstance(new_account.save, object)
+            new_account.save()
+            return redirect('index')
+    else:
+        form = AccountForm()
+        # context= {"form":form}
+    return render(request, 'add-account.html',{"form":form})

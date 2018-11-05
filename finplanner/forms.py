@@ -17,3 +17,8 @@ class ExpenseForm(forms.Form):
     title = forms.CharField()
     amount = forms.IntegerField()
     category = forms.CharField()
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        exclude = ['bank',]

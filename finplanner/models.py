@@ -67,14 +67,16 @@ class Profile(models.Model):
         return profile
 
 class Account(models.Model):
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE,null=True,related_name="account")
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE,null=True,related_name="accounts")
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True,default="")
     budget = models.IntegerField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Account, self).save(*args, **kwargs)
+    #
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Account, self).save(*args, **kwargs)
     # def save_account(self):
     #     self.save()
 

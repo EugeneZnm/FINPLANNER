@@ -9,5 +9,12 @@
 
 {% for bank in banks %}
 <p>{{bank.bank}}</p>
+
+<a href="
+
+{% url 'account' bank_id=bank.id%}
+
+
+"> Add Account</a>
 {% endfor %}
 {% endblock %}
