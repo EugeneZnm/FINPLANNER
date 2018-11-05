@@ -13,11 +13,8 @@ import json
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
-
-    message = "Hello World"
-
-    context ={"message":message}
-
+    banks=Bank.objects.all()
+    context={"banks":banks}
     return render(request,'index.html',context)
 def register(request):
     if request.method == 'POST':
@@ -109,7 +106,7 @@ def account_detail(request, account_slug):
 class AccountCreateView(CreateView):
     model = Account
     template_name= 'add-account.html'
-    fields = ('name', 'budget')
+    fields = ('name', 'budget',)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -121,6 +118,13 @@ class AccountCreateView(CreateView):
                 account=Account.objects.get(id=self.object.id),
                 name=category
             ).save()
+
+        # banks = self.request.POST['bank']
+        # for bank in banks:
+        #     Bank.objects.create(
+        #         account=Account.objects.get(id=self.object.id),
+        #         name=bank
+        #     ).save()
 
         return HttpResponseRedirect(self.get_success_url())
 

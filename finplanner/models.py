@@ -8,15 +8,18 @@ from django.utils.text import slugify
 
 # Create your models here.
 class Bank(models.Model):
-    BANKS = (
-        ('Standard Chartered', 'Standard Chartered'),
-        ('KCB', 'KCB'),
-        ('Equity', 'EQUITY'),
-    )
-    bank = models.CharField(max_length=100, choices=BANKS,default="")
+
+    bank = models.CharField(max_length=100,default="")
 
     def __str__(self):
         return self.bank
+    def create_bank(self):
+        self.save()
+    def delete_bank(self):
+        self.delete()
+    @classmethod
+    def find_bank(cls,search_term):
+        bank = cls.objects.filter(name__icontains = search_term)
 
 class Profile(models.Model):
 
