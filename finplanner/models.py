@@ -7,6 +7,11 @@ from datetime import datetime
 
 # Create your models here.
 class Profile(models.Model):
+    BANKS = (
+        ('Standard Chartered', 'Standard Chartered'),
+        ('KCB', 'KCB'),
+        ('Equity', 'EQUITY'),
+    )
 
     # bio = models.CharField(max_length=60,blank=True)
     # user = models.ForeignKey(User, null=True)
@@ -14,7 +19,8 @@ class Profile(models.Model):
     contact = models.CharField(max_length=60,blank=True)
     # timestamp = models.DateTimeField(auto_now_add=True)
 
-    timestamp = models.DateTimeField(default=timezone.now,blank=True)   # timestamp = models.DateTimeField(auto_now_add=True,null = True)
+    timestamp = models.DateTimeField(default=timezone.now,blank=True)
+    bank = models.CharField(max_length=100, choices=BANKS,default="")   # timestamp = models.DateTimeField(auto_now_add=True,null = True)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -33,11 +39,20 @@ class Profile(models.Model):
 
     def delete_profile(self):
         self.delete()
+    @classmethod
+    def get_profile(cls,id):
+        profile = Profile.objects.get(user = id)
+        return profile
 
     @classmethod
-    def filter_by_id(cls, id):
+    def filter_by_id(cls,id):
         profile = Profile.objects.filter(user = id).first()
         return profile
+    #
+    # @classmethod
+    # def filter_by_id(cls, id):
+    #     profile = Profile.objects.filter(user = id).first()
+    #     return profile
     @classmethod
     def get_by_id(cls, id):
         profile = Profile.objects.get(user = id)

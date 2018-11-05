@@ -7,7 +7,7 @@
     <!-- Empty div -->
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <div class="card">
+      <div class="card" style="">
         <div class="card-header bg-primary text-white">
                     <h4 class="text-center">
                       <i class="fas fa-user-plus"></i> Register</h4>
@@ -21,13 +21,13 @@
                         <input type="submit" class="btn btn-primary btn-sm" value="Sign Up">
                       </div>
 
-                      <input type="hidden" name="next" value="{{next}}">
+                      <input type="hidden" name="next" value="/accounts/login/">
 
                     </form>
 
                   </div>
                   <div class="section">
-                               <p class="log forgot">Have an account? <a href="/accounts/login/">Log in</a></p>
+                               <p class="log forgot" style="padding-left:16px;">Have an account? <a href="/accounts/login/">Log in</a></p>
                            </div>
       </div>
       {% if form.errors %}

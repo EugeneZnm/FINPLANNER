@@ -9,5 +9,7 @@ urlpatterns = [
     path('accounts/login/', views.login, name='login'),
     path('register', views.register, name='register'),
     path('dashboard', views.dashboard, name='dashboard'),
+    path('user/(?P<username>\w+)', views.profile, name='profile'),
+    path('accounts/edit', views.edit_profile, name='edit_profile'),
 
 ]
