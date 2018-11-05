@@ -16,5 +16,11 @@
 
 
 "> Add Account</a>
+
+{% for account in bank.accounts.all%}
+{{account.name}}
+{{account.budget}}
+
+{% endfor %}
 {% endfor %}
 {% endblock %}
