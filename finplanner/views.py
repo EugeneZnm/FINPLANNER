@@ -65,14 +65,18 @@ def edit_profile(request):
 
 # ACCOUNT
 
-def account_list(request):
-    account_list = Account.objects.all()
+def account_list(request,bank_id):
+    # account_list = Account.objects.all()
+    bank = get_object_or_404(Bank, pk=bank_id)
+    # bank=Bank.objects.get(id=bank_id)
+    print(bank)
+    # banks=Bank.objects.all()
     print(account_list)
-    return render(request, 'account-list.html',{"account_list":account_list})
+    return render(request, 'account-list.html',{"account_list":account_list,"bank":bank})
 
 # create account view
-def account_detail(request, account_slug):
-    account = get_object_or_404(Account, slug=account_slug)
+def account_detail(request, id):
+    account = get_object_or_404(Account, pk=id)
 
     # expense_list = Account.expenses.all()
     # expense_list = Expense.objects.all()
@@ -103,21 +107,21 @@ def account_detail(request, account_slug):
     return HttpResponseRedirect(account_slug)
 
 
-class AccountCreateView(CreateView):
-    model = Account
-    template_name= 'add-account.html'
-    fields = ('name', 'budget',)
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.save()
-
-        categories = self.request.POST['categoriesString'].split(',')
-        for category in categories:
-            Category.objects.create(
-                account=Account.objects.get(id=self.object.id),
-                name=category
-            ).save()
+# class AccountCreateView(CreateView):
+#     model = Account
+#     template_name= 'add-account.html'
+#     fields = ('name', 'budget',)
+#
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.save()
+#
+#         categories = self.request.POST['categoriesString'].split(',')
+#         for category in categories:
+#             Category.objects.create(
+#                 account=Account.objects.get(id=self.object.id),
+#                 name=category
+#             ).save()
 
         # banks = self.request.POST['bank']
         # for bank in banks:
@@ -126,7 +130,7 @@ class AccountCreateView(CreateView):
         #         name=bank
         #     ).save()
 
-        return HttpResponseRedirect(self.get_success_url())
+        # return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return slugify(self.request.POST['name'])

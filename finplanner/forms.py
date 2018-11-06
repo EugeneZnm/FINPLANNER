@@ -21,4 +21,4 @@ class ExpenseForm(forms.Form):
 class AccountForm(forms.ModelForm):
     class Meta:
         model = Account
-        exclude = ['bank',]
+        exclude = ['bank','user']

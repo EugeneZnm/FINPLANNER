@@ -11,11 +11,11 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('user/(?P<username>\w+)', views.profile, name='profile'),
     path('accounts/edit', views.edit_profile, name='edit_profile'),
-    path('list', views.account_list, name="list"),
-    path('add', views.AccountCreateView.as_view(), name="add"),
-    # path('<slug:account_slug>', views.account_detail, name="detail"),
+    path('list/(?P<bank_id>\d+)', views.account_list, name="list"),
+    # path('add', views.AccountCreateView.as_view(), name="add"),
+    path('account/(?P<id>\d+)', views.account_detail, name="detail"),
 
-    path('account/(?P<bank_id>\d+)', views.new_account, name='account'),
+    path('new_account/(?P<bank_id>\d+)', views.new_account, name='new_account'),
 
 
 ]
