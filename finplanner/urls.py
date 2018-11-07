@@ -16,6 +16,11 @@ urlpatterns = [
     path('expenses', login_required(views.IndexView.as_view()), name ="expenses"),
     path('expense/update/<int:pk>', login_required(views.ExpenseUpdate.as_view()), name="update_expense"),
     path('analytics/<int:year>', login_required(views.AnalyticsView.annually), name="annually"),
+       # /analytics/2018/02
+    path('analytics/<int:year>/<int:month>', login_required(views.AnalyticsView.monthly), name="monthly"),
+
+    # /analytics/2018/02/20
+    path('analytics/<int:year>/<int:month>/<int:day>', login_required(views.AnalyticsView.daily), name="daily"),
 
 
 
