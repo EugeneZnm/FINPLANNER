@@ -5,6 +5,8 @@ from django.dispatch import receiver
 from django.utils import timezone
 from datetime import datetime
 from django.utils.text import slugify
+from django.urls import reverse
+
 
 # Create your models here.
 class Bank(models.Model):
@@ -27,7 +29,7 @@ class Profile(models.Model):
     contact = models.CharField(max_length=60,blank=True)
 
     timestamp = models.DateTimeField(default=timezone.now,blank=True)
-    # bank = models.ForeignKey(Bank,on_delete=models.CASCADE, null=True)
+
 
 
     @receiver(post_save, sender=User)
@@ -65,41 +67,23 @@ class Profile(models.Model):
     def get_by_id(cls, id):
         profile = Profile.objects.get(user = id)
         return profile
-
-class Account(models.Model):
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE,null=True,related_name="accounts")
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True, blank=True,default="")
-    budget = models.IntegerField()
-    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
-
-    #
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.name)
-    #     super(Account, self).save(*args, **kwargs)
-    # def save_account(self):
-    #     self.save()
-
-    def budget_left(self):
-        expense_list = Expense.objects.filter(account = self)
-        total_expense = 0
-        for expense in expense_list:
-            total_expense += expense.amount
-        return self.budget - total_expense
-
-    def __str__(self):
-        return self.name
-
-class Category(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
 class Expense(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="expenses")
-    title = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
-    # category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    date = models.DateField()
+    description = models.CharField(max_length=1000, null=True)
+    type = models.CharField(max_length=30)
+    payment = models.CharField(max_length=30)
+    amount = models.FloatField()
+    created_by = models.CharField(max_length=100)
+    created_at = models.DateField()
+
+
+    def __str__(self):
+        return self.description
+
     class Meta:
-        ordering = ('-amount',)
+        verbose_name = 'Expense'
+        verbose_name_plural = 'Expenses'
+        ordering = ['-id']
+
+    def get_absolute_url(self):
+        return reverse('tracker:expense')
