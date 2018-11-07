@@ -9,10 +9,10 @@
                 {% for label in menu_labels %}
                   <li class="collection-item">
                       {% if context_type == 'annually' %}
-                        <a class="annually" href="{% url 'tracker:analytics'%}/{{label}}"> {{label}}</a>
+                        <a class="annually" href="{% url 'finplanner:analytics'%}/{{label}}"> {{label}}</a>
                       {% elif context_type == 'monthly'%}
 
-                        <a class="annually" href="{% url 'tracker:analytics'%}/{{selected_year}}/{{label}}"> {{months|get_by_index:label}}</a>
+                        <a class="annually" href="{% url 'finplanner:analytics'%}/{{selected_year}}/{{label}}"> {{months|get_by_index:label}}</a>
                       {% endif %}
                   </li>
                 {% endfor%}

@@ -341,7 +341,7 @@ class AnalyticsView(generic.ListView):
             'submenu': submenu
         }
 
-        return render(request, "analytics/index.html", context)
+        return render(request, "analytics.html", context)
 
     def monthly(request, year, month):
         # get user expense objects
@@ -447,7 +447,7 @@ class AnalyticsView(generic.ListView):
             'months': months,
             'expense_table_in_month_view': expense_table_in_month_view
         }
-        return render(request, "analytics/index.html", context)
+        return render(request, "analytics.html", context)
 
     def daily(request, year, month, day):
         # get user expense objects
