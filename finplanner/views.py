@@ -7,8 +7,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
 from django.urls import reverse_lazy
 
-
-
 from finplanner.models import *
 from finplanner.forms import *
 # NEW
@@ -34,7 +32,7 @@ class LandingView():
         context = {}
         return render(request, "homepage.html", context)
 class Dashboard():
-    template_name = "tracker/dashboard.html"
+    template_name = "dashboard.html"
 
     def index(request):
         # init
@@ -208,6 +206,7 @@ class IndexView(generic.ListView):
     formhelper_class = ExpenseTableHelper
 
     def get_queryset(self):
+        print(Expense.objects.filter(created_by=self.request.user))
         return Expense.objects.filter(created_by=self.request.user)
 
     def get_context_data(self, **kwargs):
