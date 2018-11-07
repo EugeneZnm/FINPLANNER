@@ -1,27 +1,14 @@
-{% extends 'base.html'%}
-{% load bootstrap4%}
+<h1>ALL EXPENSES</h1>
 {% load django_tables2 crispy_forms_tags %}
 
-{% block body %}
-<h1>EXPENSES ALL</h1>
+{% block content %}
 <div class="container expense-overview">
-    <div class="row">
-         <div class="col">
-            <button type="submit" class="open-filter-btn btn btn-success">
-              Filter
-            </button>
-         </div>
-        <div class="col">
-            <form method="GET" action="/tracker/export">
-                <button type="submit" class="export-btn btn btn-success">Export</button>
-            </form>
-        </div>
 
-    </div>
 
     <div class="row">
        <div class="col m12">
            {% render_table table %}
+           <h1>Table not rendering</h1>
        </div>
     </div>
 
