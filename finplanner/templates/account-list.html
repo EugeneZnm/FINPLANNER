@@ -4,33 +4,24 @@
 
 </head>
 <body>
-    <div class="container" style="margin-top:100px;">
-
+    <div class="container" style="margin-top:140px;">
         <h1>My Accounts</h1>
-        <a href="{% url 'add' %}" class="btn-large grey">
-                  <i class="material-icons white-text left">add_circle</i>
-                  <span class="bold">Add Accounts</span>
-              </a>
 
-        <div class="row">
-        {% for account in account_list %}
-            <div class="col s12 l3">
-                <div class="card-panel">
-                    <h5>{{account.name}}</h5>
-                    <a href="{% url 'detail' account.slug %}" class="btn">Visit</a>
-                </div>
-            </div>
-        {% empty %}
-        <div class="no-account-wrapper center">
-                <h3 class="grey-text">Sorry you do not have any accounts, yet</h3>
-                <!-- <a href="" class="btn-large grey">
-                    <i class="material-icons white-text left">add_circle</i>
-                    <span class="bold">Add Accounts</span>
-                </a> -->
-            </div>
+{{bank.bank}} <br>
+{% for account in bank.accounts.all%}
+{{account.name}} <br>
 
-        {% endfor %}
-        </div>
+    <a href="{% url 'detail' id=account.id %}" class="btn">Visit</a> <br>
+{% endfor %}
+<div class="row">
+  <a href="
+
+  {% url 'new_account' bank_id=bank.id%}
+
+
+  "> Add Account</a> <br>
+</div>
+
     </div>
     </body>
 {% endblock %}

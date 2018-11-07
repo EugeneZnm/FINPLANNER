@@ -4,10 +4,28 @@
 
 
 {% block content %}
+<div class="container" style="margin-top:140px;">
+  {% include 'partials/_alerts.html'%}
 
-{% include 'partials/_alerts.html'%}
+  {% for bank in banks %}
+  <!-- <p>{{bank.bank}}</p> <br> -->
 
-{% for bank in banks %}
-<p>{{bank.bank}}</p>
-{% endfor %}
+  <a href="{% url 'list' bank_id=bank.id %}" class="btn">{{bank.bank}}</a> <br>
+
+
+  <a href="
+
+  {% url 'new_account' bank_id=bank.id%}
+
+
+  "> Add Account</a> <br>
+
+  {% for account in bank.accounts.all%}
+  {{account.name}} <br>
+  {{account.budget}} <br>
+
+  {% endfor %}
+  {% endfor %}
+</div>
+
 {% endblock %}
