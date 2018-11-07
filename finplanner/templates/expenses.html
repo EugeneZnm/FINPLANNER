@@ -8,17 +8,16 @@
     <div class="row">
        <div class="col m12">
            {% render_table table %}
-           <h1>Table not rendering</h1>
        </div>
     </div>
-
-
     <div id="filterPanel" class="filterPanel">
       <a href="javascript:void(0)" class="closebtn">&times;</a>
           <form action="" method="get">
         {% crispy filter.form filter.form.helper %}
         </form>
     </div>
+
+
 
 {% endblock %}
 </div>

@@ -232,6 +232,16 @@ class ExpenseCreate(CreateView):
         obj.created_at = datetime.datetime.now()
         obj.save()
         return HttpResponseRedirect(reverse_lazy('finplanner:expenses'))
+class ExpenseUpdate(UpdateView):
+    model = Expense
+    fields = [
+        'date',
+        'description',
+        'type',
+        'payment',
+        'amount'
+    ]
+
 
 
 # # Create your views here.
