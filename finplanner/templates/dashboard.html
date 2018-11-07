@@ -1,6 +1,5 @@
-<!-- {% extends 'base.html'%} -->
 
-<!-- {% block body %} -->
+<h1>Not showing</h1>
 <div class="dashboard">
     {% if context_type == 'dashboard'%}
     <section>
@@ -288,7 +287,7 @@
         <div class="col s12 m4">
           <div class="card  border-radius-3">
             <div class="card-content center">
-              <a href="{% url 'tracker:analytics'%}/{{current_year}}">
+              <a href="{% url 'finplanner:analytics'%}/{{current_year}}">
                     <div class="dashboard-card annually-report">
                         <div class="">Annually Report</div>
                     </div>
@@ -299,7 +298,7 @@
         <div class="col s12 m4">
           <div class="card  border-radius-3">
             <div class="card-content center">
-             <a href="{% url 'tracker:analytics'%}/{{current_year}}/{{current_month}}">
+             <a href="{% url 'finplanner:analytics'%}/{{current_year}}/{{current_month}}">
                     <div class="dashboard-card monthly-report">
                         <div class="">Monthly Report</div>
                     </div>
@@ -310,7 +309,7 @@
         <div class="col s12 m4">
           <div class="card gradient-45deg-light-blue-cyan border-radius-3">
             <div class="card-content center">
-             <a href="{% url 'tracker:analytics'%}/{{current_year}}/{{current_month}}/{{current_day}}">
+             <a href="{% url 'finplanner:analytics'%}/{{current_year}}/{{current_month}}/{{current_day}}">
                     <div class="dashboard-card daily-report">
                         <div class="">Daily Report</div>
                     </div>
@@ -323,5 +322,4 @@
     {% endif %}
 </div>
 
-<!-- {% endblock %} -->
 </div>
