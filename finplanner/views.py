@@ -7,6 +7,8 @@ from finplanner.models import *
 from finplanner.forms import *
 from django.views.generic import CreateView
 from django.utils.text import slugify
+from django.urls import reverse
+
 import json
 
 
@@ -104,7 +106,7 @@ def account_detail(request, id):
 
         return HttpResponse('')
 
-    return HttpResponseRedirect(account_slug)
+    return HttpResponseRedirect(reverse('detail',args=(account.id,)))
 
 
 # class AccountCreateView(CreateView):

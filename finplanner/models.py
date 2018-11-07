@@ -93,6 +93,9 @@ class Account(models.Model):
 class Category(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 class Expense(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="expenses")
     title = models.CharField(max_length=100)
