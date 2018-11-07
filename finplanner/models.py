@@ -86,4 +86,4 @@ class Expense(models.Model):
         ordering = ['-id']
 
     def get_absolute_url(self):
-        return reverse('finplanner:expense')
+        return reverse('finplanner:expenses')

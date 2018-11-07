@@ -233,6 +233,8 @@ class ExpenseCreate(CreateView):
         obj.save()
         return HttpResponseRedirect(reverse_lazy('finplanner:expenses'))
 class ExpenseUpdate(UpdateView):
+    template_name = "expense_form.html"
+    
     model = Expense
     fields = [
         'date',
