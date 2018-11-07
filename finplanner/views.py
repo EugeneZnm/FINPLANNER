@@ -5,9 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from finplanner.models import *
 from finplanner.forms import *
+# NEW
 from django.views.generic import CreateView
 from django.utils.text import slugify
 from django.urls import reverse
+from django_tables2 import RequestConfig
+
 
 import json
 
