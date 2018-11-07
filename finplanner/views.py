@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
+from django.urls import reverse_lazy
+
 
 
 from finplanner.models import *
@@ -220,6 +222,8 @@ class IndexView(generic.ListView):
         return context
 
 class ExpenseCreate(CreateView):
+    template_name = "expense_form.html"
+
     model = Expense
     form_class = AddExpenseForm
 
@@ -228,7 +232,7 @@ class ExpenseCreate(CreateView):
         obj.created_by = self.request.user
         obj.created_at = datetime.datetime.now()
         obj.save()
-        return HttpResponseRedirect(reverse_lazy('finplanner:expense'))
+        return HttpResponseRedirect(reverse_lazy('finplanner:expenses'))
 
 
 # # Create your views here.
