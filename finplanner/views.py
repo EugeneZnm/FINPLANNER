@@ -240,13 +240,14 @@ class ExpenseUpdate(UpdateView):
         'date',
         'description',
         'type',
+        'payment_mode',
         'payment',
         'amount'
     ]
 
 
 class AnalyticsView(generic.ListView):
-    template_name = "analytics/index.html"
+    template_name = "analytics.html"
     context_object_name = "records"
     model = Expense
 
