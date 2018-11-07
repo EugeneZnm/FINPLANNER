@@ -9,6 +9,8 @@ urlpatterns = [
     # RESTRUCTURED VIEWS
     path('dashboard', login_required(views.Dashboard.index), name="dashboard"),
     path('expense/add', login_required(views.ExpenseCreate.as_view()), name="create_expense"),
+    path('expenses', login_required(views.IndexView.as_view()), name ="expenses"),
+
 
 
 

@@ -3,6 +3,10 @@ from django.http  import HttpResponse, HttpResponseRedirect
 from django.contrib import messages,auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views import generic
+
+
 from finplanner.models import *
 from finplanner.forms import *
 # NEW
