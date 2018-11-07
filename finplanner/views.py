@@ -189,6 +189,17 @@ class Dashboard():
         return render(request, "dashboard.html", context)
 
 
+class ExpenseCreate(CreateView):
+    model = Expense
+    form_class = AddExpenseForm
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.created_by = self.request.user
+        obj.created_at = datetime.datetime.now()
+        obj.save()
+        return HttpResponseRedirect(reverse_lazy('finplanner:expense'))
+
 
 # # Create your views here.
 # @login_required(login_url='/accounts/login/')

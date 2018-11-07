@@ -37,10 +37,24 @@ class ExpenseTableHelper(FormHelper):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
-class ExpenseForm(forms.Form):
-    title = forms.CharField()
-    amount = forms.IntegerField()
-    category = forms.CharField()
+class AddExpenseForm(ModelForm):
+    class Meta:
+        model = Expense
+        fields = [
+            'date',
+            'description',
+            'type',
+            'payment',
+            'amount'
+        ]
+        widgets = {
+            'date': DateInput(),
+        }
+
+# class ExpenseForm(forms.Form):
+#     title = forms.CharField()
+#     amount = forms.IntegerField()
+#     category = forms.CharField()
 #
 # class AccountForm(forms.ModelForm):
 #     class Meta:
