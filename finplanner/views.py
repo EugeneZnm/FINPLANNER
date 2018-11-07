@@ -14,151 +14,297 @@ from django.db.models import Sum, Count
 from .tables import ExpenseTable
 from .filters import ExpenseFilter
 from .utils import AmountUnitUtil
-
+from django.db.models import Sum, Count
+from calendar import monthrange
+import json
+import random
+import datetime
 # import django_filters
 
-import json
+# RESTRUCTURED APP
+class Dashboard():
+    template_name = "tracker/dashboard.html"
+
+    def index(request):
+        # init
+        avg_year = 0
+        avg_month = 0
+        avg_day = 0
+
+        now = datetime.datetime.now()
+
+        # get user expense objects
+        exp = Expense.objects.filter(created_by=request.user)
+
+        # count total record
+        total_records = exp.count()
+
+        # count total record in this month
+        current_month = now.month
+        total_records_in_this_month = exp.filter(created_at__month=current_month).count()
+        if total_records_in_this_month is None:
+            total_records_in_this_month = 0
+
+        # count total record in last month
+        last_month = now.month - 1
+        if last_month<0:
+            last_month = 11
+        total_records_in_last_month = exp.filter(created_at__month=last_month).count()
+        if total_records_in_last_month is None:
+            total_records_in_last_month = 0
+
+        print(total_records_in_this_month)
+        print(total_records_in_last_month)
+        # diff between this month and last month
+        if total_records == 0:
+            total_records_diff = 0
+        else:
+            total_records_diff = ( (total_records_in_this_month - total_records_in_last_month) / total_records ) * 100
+
+        # sum up all the expenses
+        total_expenses = exp.aggregate(amount=Sum('amount'))['amount']
+        if total_expenses is None:
+            total_expenses = 0
+
+        # sum up all the expenses in this month
+        total_expenses_in_this_month = exp.filter(created_at__month=current_month).aggregate(amount=Sum('amount'))['amount']
+        if total_expenses_in_this_month is None:
+            total_expenses_in_this_month = 0
+
+        # sum up all the expenses in last month
+        total_expenses_in_last_month = exp.filter(created_at__month=last_month).aggregate(amount=Sum('amount'))['amount']
+        if total_expenses_in_last_month is None:
+            total_expenses_in_last_month = 0
+
+        # diff between this month and last month
+        if total_expenses == 0:
+            total_expenses_diff = 0
+        else:
+            total_expenses_diff = ( (total_expenses_in_this_month - total_expenses_in_last_month) / total_expenses ) * 100
+
+        # get all categories
+        categories = list(exp.values('type').distinct().order_by('type').values_list('type', flat=True))
+
+        # get categories record count
+        categories_record_cnt = list(exp.values('type').annotate(the_count=Count('type')).order_by('type').values_list('the_count', flat=True))
+
+        # categories count
+        categories_cnt = exp.values('type').annotate(the_count=Count('type')).count()
+        if categories_cnt is None:
+            categories_cnt = 0
+
+        # total expense per category
+        categories_expense = list(exp.values('type').order_by('type').annotate(the_count=Sum('amount')).values_list('the_count', flat=True))
+
+        categories_color_arr = []
+        for cat in categories:
+            # generate random color
+            r = lambda: random.randint(0, 255)
+            color = '#%02X%02X%02X' % (r(), r(), r())
+            categories_color_arr.append(color)
+
+        # categories count in this month
+        categories_in_this_month = exp.filter(created_at__month=current_month).values('type').annotate(the_count=Count('type')).count()
+        if categories_in_this_month is None:
+            categories_in_this_month = 0
+
+        # categories count in last month
+        categories_in_last_month = exp.filter(created_at__month=last_month).values('type').annotate(the_count=Count('type')).count()
+        if categories_in_last_month is None:
+            categories_in_last_month = 0
+
+        # diff between this month and last month
+        if categories_cnt == 0:
+            total_categories_diff = 0
+        else:
+            total_categories_diff = ((categories_in_this_month - categories_in_last_month) / categories_cnt) * 100
+
+        # list out dates for the following processing.
+        dates = list(exp.values('date')
+                     .values_list('date', flat=True))
+
+        # avg amount per year, per month and per day
+        year_arr = []
+        month_arr = []
+        day_arr = []
+
+        for date in dates:
+            if date.year not in year_arr:
+                year_arr.append(date.year)
+            if date.year not in month_arr:
+                month_arr.append(date.month)
+            if date.year not in day_arr:
+                day_arr.append(date.day)
+
+        if total_expenses > 0:
+            avg_year = AmountUnitUtil.convertToMills(total_expenses / year_arr.__len__())
+            avg_month = AmountUnitUtil.convertToMills(total_expenses / month_arr.__len__())
+            avg_day = AmountUnitUtil.convertToMills(total_expenses / day_arr.__len__())
+            total_expenses = AmountUnitUtil.convertToMills(total_expenses)
+
+        # Get Latest 30 days records
+
+        latest30DaysArr = list(exp.filter(created_at__lte=datetime.datetime.today(),
+                                       created_at__gt=datetime.datetime.today() - datetime.timedelta(days=30))
+                            .values('date').distinct().order_by('date').values_list('date', flat=True))
+
+        latest30DaysLabel = []
+        for day in latest30DaysArr:
+            latest30DaysLabel.append(day.strftime('%d/%m'))
 
 
-# Create your views here.
-@login_required(login_url='/accounts/login/')
-def index(request):
-    banks=Bank.objects.all()
-    context={"banks":banks}
-    return render(request,'index.html',context)
-def register(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
+        latest30DaysData = list(exp.filter(created_at__lte=datetime.datetime.today(), created_at__gt=datetime.datetime.today()-datetime.timedelta(days=30))
+                             .values('date').distinct().order_by('date')
+                             .annotate(amount=Sum('amount')).values_list('amount', flat=True))
 
-            return redirect('login')
-    else:
-        form = SignUpForm()
+        context = {
+            'context_type': 'dashboard',
+            'total_records': total_records,
+            'total_expenses': total_expenses,
+            'categories': categories,
+            'categories_record_cnt': categories_record_cnt,
+            'categories_cnt': categories_cnt,
+            'categories_expense': categories_expense,
+            'categories_color_arr': categories_color_arr,
+            'avg_year': avg_year,
+            'avg_month': avg_month,
+            'avg_day':avg_day,
+            'current_year': now.year,
+            'current_month': now.month,
+            'current_day': now.day,
+            'latest30DaysLabel': latest30DaysLabel,
+            'latest30DaysData': latest30DaysData,
+            'totalRecordsInThisMonth': total_records_in_this_month,
+            'totalRecordsInLastMonth': total_records_in_last_month,
+            'totalExpensesInThisMonth': float("{0:.2f}".format(total_expenses_in_this_month)),
+            'totalExpensesInLastMonth': float("{0:.2f}".format(total_expenses_in_last_month)),
+            'categories_in_this_month': categories_in_this_month,
+            'categories_in_last_month': categories_in_last_month,
+            'total_expenses_diff': float("{0:.2f}".format(total_expenses_diff)),
+            'total_records_diff': float("{0:.2f}".format(total_records_diff)),
+            'total_categories_diff': float("{0:.2f}".format(total_categories_diff))
 
-    return render(request, 'registration/registration_form.html', {'form': form})
-@login_required(login_url='/accounts/login/')
-def login(request):
+        }
 
-    return render(request, 'registration/login.html')
-
-def dashboard(request):
-
-    return render(request,'register/dashboard.html')
-
-# PROFILE
-def profile(request, username):
-    profile = User.objects.get(username=username)
-    try:
-        profile_info = Profile.get_profile(profile.id)
-    except:
-        profile_info = Profile.filter_by_id(profile.id)
-    title= f'@{profile.username}'
-    return render(request, 'profile.html', {'title':title, 'profile':profile, 'profile_info':profile_info})
-
-def edit_profile(request):
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            edit = form.save(commit=False)
-            edit.user = request.user
-            edit.save()
-            return redirect('profile', username=request.user)
-
-    else:
-        form = ProfileForm()
-
-    return render(request, 'edit_profile.html', {'form':form, 'profile':profile})
-
-# END PROFILE
-
-# ACCOUNT
-
-def account_list(request,bank_id):
-    # account_list = Account.objects.all()
-    bank = get_object_or_404(Bank, pk=bank_id)
-    # bank=Bank.objects.get(id=bank_id)
-    print(bank)
-    # banks=Bank.objects.all()
-    print(account_list)
-    return render(request, 'account-list.html',{"account_list":account_list,"bank":bank})
-
-# create account view
-def account_detail(request, id):
-    account = get_object_or_404(Account, pk=id)
-
-    # expense_list = Account.expenses.all()
-    # expense_list = Expense.objects.all()
+        return render(request, "dashboard.html", context)
 
 
-    if request.method == 'GET':
-        category_list = Category.objects.filter(account=account)
-        return render(request, 'account-detail.html', {'account':account,  'category_list':category_list,"expense_list":account.expenses.all()})
 
-    elif request.method == 'POST':
-        form = ExpenseForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            amount = form.cleaned_data['amount']
-            # category_name = form.cleaned_data['category']
-            #
-            # category = get_object_or_404(Category, account=account, name=category_name)
-
-            Expense.objects.create(account=account, title=title, amount=amount).save()
-
-    elif request.method == 'DELETE':
-        id = json.loads(request.body)['id']
-        expense = get_object_or_404(Expense, id=id)
-        expense.delete()
-
-        return HttpResponse('')
-
-    return HttpResponseRedirect(reverse('detail',args=(account.id,)))
-
-
-# class AccountCreateView(CreateView):
-#     model = Account
-#     template_name= 'add-account.html'
-#     fields = ('name', 'budget',)
+# # Create your views here.
+# @login_required(login_url='/accounts/login/')
+# def index(request):
+#     banks=Bank.objects.all()
+#     context={"banks":banks}
+#     return render(request,'index.html',context)
+# def register(request):
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             auth_login(request, user)
 #
-#     def form_valid(self, form):
-#         self.object = form.save(commit=False)
-#         self.object.save()
+#             return redirect('login')
+#     else:
+#         form = SignUpForm()
 #
-#         categories = self.request.POST['categoriesString'].split(',')
-#         for category in categories:
-#             Category.objects.create(
-#                 account=Account.objects.get(id=self.object.id),
-#                 name=category
-#             ).save()
-
-        # banks = self.request.POST['bank']
-        # for bank in banks:
-        #     Bank.objects.create(
-        #         account=Account.objects.get(id=self.object.id),
-        #         name=bank
-        #     ).save()
-
-        # return HttpResponseRedirect(self.get_success_url())
-
-    def get_success_url(self):
-        return slugify(self.request.POST['name'])
-
-@login_required(login_url='/accounts/login/')
-def new_account(request,bank_id):
-    bank = get_object_or_404(Bank, pk=bank_id)
-    current_user = request.user
-    if request.method == 'POST':
-        form = AccountForm(request.POST,request.FILES)
-        if form.is_valid():
-            new_account = form.save(commit=False)
-            new_account.user = current_user
-            new_account.bank=bank
-            assert isinstance(new_account.save, object)
-            new_account.save()
-            return redirect('index')
-    else:
-        form = AccountForm()
-        # context= {"form":form}
-    return render(request, 'add-account.html',{"form":form})
+#     return render(request, 'registration/registration_form.html', {'form': form})
+# @login_required(login_url='/accounts/login/')
+# def login(request):
+#
+#     return render(request, 'registration/login.html')
+#
+# def dashboard(request):
+#
+#     return render(request,'register/dashboard.html')
+#
+# # PROFILE
+# def profile(request, username):
+#     profile = User.objects.get(username=username)
+#     try:
+#         profile_info = Profile.get_profile(profile.id)
+#     except:
+#         profile_info = Profile.filter_by_id(profile.id)
+#     title= f'@{profile.username}'
+#     return render(request, 'profile.html', {'title':title, 'profile':profile, 'profile_info':profile_info})
+#
+# def edit_profile(request):
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             edit = form.save(commit=False)
+#             edit.user = request.user
+#             edit.save()
+#             return redirect('profile', username=request.user)
+#
+#     else:
+#         form = ProfileForm()
+#
+#     return render(request, 'edit_profile.html', {'form':form, 'profile':profile})
+#
+# # END PROFILE
+#
+# # ACCOUNT
+#
+# def account_list(request,bank_id):
+#     # account_list = Account.objects.all()
+#     bank = get_object_or_404(Bank, pk=bank_id)
+#     # bank=Bank.objects.get(id=bank_id)
+#     print(bank)
+#     # banks=Bank.objects.all()
+#     print(account_list)
+#     return render(request, 'account-list.html',{"account_list":account_list,"bank":bank})
+#
+# # create account view
+# def account_detail(request, id):
+#     account = get_object_or_404(Account, pk=id)
+#
+#     # expense_list = Account.expenses.all()
+#     # expense_list = Expense.objects.all()
+#
+#
+#     if request.method == 'GET':
+#         category_list = Category.objects.filter(account=account)
+#         return render(request, 'account-detail.html', {'account':account,  'category_list':category_list,"expense_list":account.expenses.all()})
+#
+#     elif request.method == 'POST':
+#         form = ExpenseForm(request.POST)
+#         if form.is_valid():
+#             title = form.cleaned_data['title']
+#             amount = form.cleaned_data['amount']
+#             # category_name = form.cleaned_data['category']
+#             #
+#             # category = get_object_or_404(Category, account=account, name=category_name)
+#
+#             Expense.objects.create(account=account, title=title, amount=amount).save()
+#
+#     elif request.method == 'DELETE':
+#         id = json.loads(request.body)['id']
+#         expense = get_object_or_404(Expense, id=id)
+#         expense.delete()
+#
+#         return HttpResponse('')
+#
+#     return HttpResponseRedirect(reverse('detail',args=(account.id,)))
+#
+#
+#
+#     def get_success_url(self):
+#         return slugify(self.request.POST['name'])
+#
+# @login_required(login_url='/accounts/login/')
+# def new_account(request,bank_id):
+#     bank = get_object_or_404(Bank, pk=bank_id)
+#     current_user = request.user
+#     if request.method == 'POST':
+#         form = AccountForm(request.POST,request.FILES)
+#         if form.is_valid():
+#             new_account = form.save(commit=False)
+#             new_account.user = current_user
+#             new_account.bank=bank
+#             assert isinstance(new_account.save, object)
+#             new_account.save()
+#             return redirect('index')
+#     else:
+#         form = AccountForm()
+#         # context= {"form":form}
+#     return render(request, 'add-account.html',{"form":form})
