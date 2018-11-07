@@ -13,6 +13,7 @@ from django_tables2 import RequestConfig
 from django.db.models import Sum, Count
 from .tables import ExpenseTable
 from .filters import ExpenseFilter
+from .utils import AmountUnitUtil
 
 # import django_filters
 
