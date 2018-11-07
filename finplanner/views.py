@@ -93,11 +93,11 @@ def account_detail(request, id):
         if form.is_valid():
             title = form.cleaned_data['title']
             amount = form.cleaned_data['amount']
-            category_name = form.cleaned_data['category']
+            # category_name = form.cleaned_data['category']
+            #
+            # category = get_object_or_404(Category, account=account, name=category_name)
 
-            category = get_object_or_404(Category, account=account, name=category_name)
-
-            Expense.objects.create(account=account, title=title, amount=amount, category=category).save()
+            Expense.objects.create(account=account, title=title, amount=amount).save()
 
     elif request.method == 'DELETE':
         id = json.loads(request.body)['id']
