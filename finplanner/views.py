@@ -26,6 +26,11 @@ import datetime
 # import django_filters
 
 # RESTRUCTURED APP
+
+class LandingView():
+    def landing(request):
+        context = {}
+        return render(request, "homepage.html", context)
 class Dashboard():
     template_name = "tracker/dashboard.html"
 
