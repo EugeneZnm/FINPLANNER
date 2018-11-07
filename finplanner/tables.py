@@ -20,6 +20,7 @@ class ExpenseTable(tables.Table):
             'description',
             'type',
             'payment',
+            'payment_mode',
             'amount'
             )
         attrs = {"class": "table table-striped dt-responsive nowrap"}
