@@ -188,6 +188,27 @@ class Dashboard():
 
         return render(request, "dashboard.html", context)
 
+class IndexView(generic.ListView):
+    template_name = "expenses.html"
+    context_object_name = "records"
+    model = Expense
+    table_class = ExpenseTable
+    filter_class = ExpenseFilter
+    formhelper_class = ExpenseTableHelper
+
+    def get_queryset(self):
+        return Expense.objects.filter(created_by=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        filter = ExpenseFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
+        filter.form.helper = ExpenseTableHelper()
+        table = ExpenseTable(filter.qs)
+        table.order_by = '-date'
+        RequestConfig(self.request, paginate={'per_page': 10}).configure(table)
+        context['filter'] = filter
+        context['table'] = table
+        return context
 
 class ExpenseCreate(CreateView):
     model = Expense
