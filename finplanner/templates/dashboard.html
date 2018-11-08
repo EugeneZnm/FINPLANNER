@@ -38,7 +38,7 @@
                     <div class="card-content">
                         <p class="card-stats-title">
                             Total Expenses</p>
-                        <h4 class="card-stats-number">${{total_expenses}}</h4>
+                        <h4 class="card-stats-number">Ksh. {{total_expenses}}</h4>
                         <p class="card-stats-compare">
                             {% if total_expenses_diff > 0 %}
                             <i class="material-icons">keyboard_arrow_up</i> {{total_expenses_diff | stringformat:"+d" | slice:"1:"}}%
@@ -51,7 +51,7 @@
                     </div>
                     <div class="card-action">
                         <div class="this-month col m6">This month:</div>
-                        <div>${{totalExpensesInThisMonth}}</div>
+                        <div>Ksh. {{totalExpensesInThisMonth}}</div>
                         <div class="last-month col m6">Last month:</div>
                         <div>${{totalExpensesInLastMonth}}</div>
                     </div>
@@ -88,7 +88,7 @@
                     <div class="card-content">
                         <p class="card-stats-title">
                             Avg. year</p>
-                        <h4 class="card-stats-number">${{avg_year}}</h4>
+                        <h4 class="card-stats-number">Ksh. {{avg_year}}</h4>
                         <p class="card-stats-compare">
                             <i class="material-icons">dashboard</i>
                             <span class=""> </span>
@@ -96,9 +96,9 @@
                     </div>
                     <div class="card-action">
                         <div class="this-month col m6">Avg. month:</div>
-                        <div>${{avg_month}}</div>
+                        <div>Ksh. {{avg_month}}</div>
                         <div class="last-month col m6">Avg. day:</div>
-                        <div>${{avg_day}}</div>
+                        <div>Ksh. {{avg_day}}</div>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                 <div class="card">
                     <div class="card-move-up">
                         <div class="move-up card-content ">
-                            <p class="margin">Expenses per Categories</p>
+                            <p class="margin" style="color:black;">Expenses per Categories</p>
                             <canvas id="allCategoriesRadar" class="allCategoriesRadar"></canvas>
                             <script>
                                 var ctx = document.getElementById("allCategoriesRadar").getContext('2d');
@@ -168,8 +168,8 @@
                                              {
                                                 "data": {{ categories_expense | safe }},
                                                 "fill": true,
-                                                 "backgroundColor": "#fff",
-                                                "borderColor": "#fff;",
+                                                 "backgroundColor": "#4C27A4",
+                                                "borderColor": "blue;",
                                              }
                                       ]
                                     },
@@ -244,7 +244,7 @@
                                             "label":"Amount",
                                             "data": {{ latest30DaysData | safe }},
                                             "fill":false,
-                                            "borderColor":"#e5ffff",
+                                            "borderColor":"green",
                                             "lineTension":0.1
                                          }
                                       ]
@@ -252,24 +252,24 @@
                                     options: {
                                         legend: {
                                              labels: {
-                                                  fontColor: "#e5ffff"
+                                                  fontColor: "black"
                                                  }
                                               },
                                             title: {
                                                 display: true,
-                                                fontColor: "#e5ffff",
+                                                fontColor: "blue",
                                                 text: 'Expenses in Last 30 Days'
                                             }     ,
                                             scales: {
                                                 yAxes: [{
                                                     ticks: {
                                                         beginAtZero:true,
-                                                        fontColor: "#e5ffff"
+                                                        fontColor: "green"
                                                     },
                                                 }],
                                               xAxes: [{
                                                     ticks: {
-                                                        fontColor: "#e5ffff"
+                                                        fontColor: "green"
                                                     },
                                                 }]
                                         }
