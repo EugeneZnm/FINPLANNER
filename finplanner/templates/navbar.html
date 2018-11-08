@@ -21,6 +21,9 @@
     padding-right: 2em;
     text-decoration: none
 }
+#navbar{
+  margin:0 6px;
+}
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
@@ -34,12 +37,14 @@
 <body>
 
 <div class=" ">
-    <nav>
-        <div class="nav-wrapper blue-grey">
+    <nav >
+        <div class="nav-wrapper blue-grey" id="navbar">
             <a href="{% url 'finplanner:index'%}" class="brand-logo" style="text-decoration:none">FinPro</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
               {% if user.is_authenticated %}
+              <li><a href="{% url 'finplanner:expenses' %}" class="btn waves-effect waves-light deep-orange lighten-2">MY EXPENSES</a></li>
+              <li><a href="{% url 'finplanner:create_expense' %}" class="btn waves-effect waves-light deep-orange lighten-2">ADD EXPENSE</a></li>
                   <li><a href="{% url 'finplanner:dashboard' %}" class="btn waves-effect waves-light deep-orange lighten-2">DASHBOARD</a></li>
                 <li><a href="/logout" class="btn waves-effect waves-light deep-orange lighten-2">Logout</a></li>
                  {% else %}

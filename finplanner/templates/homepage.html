@@ -4,27 +4,44 @@
 
 
 {% block content %}
-<div class="container" style="margin-top:100px;">
-  <h>INDEX</h>
-  <a href="{% url 'finplanner:create_expense' %}">
-                Add Expense
-      </a> <br>
+<div class="container" style="margin-top:20px;">
+<section class="section section-stats">
+  <h4 class="text-center">MY ACCOUNTS</h4>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-3"><button class="btn waves-effect right modal-trigger" ><i class="material-icons white-text left">add_circle</i><a href="{% url 'finplanner:new_account' %}" style="color:#fff">Add Account</a></button></div>
+      <div class="col-md-2">
+        <h6 class="text-center">Net Balance :  </h6>
 
+      </div>
 
-</div> <br>
-<a href="
-
-{% url 'finplanner:new_account' %}
-
-
-"> Add Account</a> <br>
-{% for account in accounts%}
-
-<a href="{% url 'finplanner:detail' id=account.id %}">{{account.name}}</a>
+      <div class="col-md-4"></div>
+    </div>
 
 
 
- <br>
-{% endfor %}
+  <hr>
+    <div class="row">
+      {% for account in accounts%}
+      <div class="col-md-4">
+        <a href="{% url 'finplanner:detail' id=account.id %}">
+
+          <div class="card-panel">
+              <h3> {{ account.name  }}</h3>
+                <h5 class="bold green-text">Ksh. {{ account.budget_left  }}</h5>
+          </div>
+        </a>
+
+      </div>
+      {% endfor %}
+      </div>
+
+  </section>
+</div>
+
+
+
+
+
 
 {% endblock %}

@@ -26,14 +26,17 @@ import datetime
 # import django_filters
 
 # RESTRUCTURED APP
+def home(request):
 
+    context={}
+    return render(request,'home.html',context)
 class LandingView():
     def landing(request):
         context = {}
         return render(request, "homepage.html", context)
-# @login_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def index(request):
-    accounts=Account.objects.all()
+    accounts=Account.objects.filter(user=request.user)
     context={"accounts":accounts}
     return render(request,'homepage.html',context)
 
