@@ -1,15 +1,53 @@
+{% load static %}
+<head>
+<style>
+#form1 {
+    margin-left: 200px;
+}
+
+.side-nav li a {
+    text-decoration: none;
+}
+
+#searchResults2 {
+    background-color: #666666;
+}
+
+#searchResults {
+    background-color: #666666;
+}
+
+.right li a {
+    padding-right: 2em;
+    text-decoration: none
+}
+</style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+<body>
+
 <div class=" ">
     <nav>
         <div class="nav-wrapper blue-grey">
-            <a href="#!" class="brand-logo" style="text-decoration:none">Bloggy</a>
+            <a href="{% url 'finplanner:index'%}" class="brand-logo" style="text-decoration:none">FinPro</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="" class="btn waves-effect waves-light deep-orange lighten-2">Register/Login</a></li>
-                <li><a href="" class="btn waves-effect waves-light deep-orange lighten-2">Contact Us</a></li>
+              {% if user.is_authenticated %}
+                  <li><a href="{% url 'finplanner:dashboard' %}" class="btn waves-effect waves-light deep-orange lighten-2">DASHBOARD</a></li>
+                <li><a href="/logout" class="btn waves-effect waves-light deep-orange lighten-2">Logout</a></li>
+                 {% else %}
+
+                  <li><a href="/accounts/login" class="btn waves-effect waves-light deep-orange lighten-2">LOGIN</a></li>
+                <li><a href="/accounts/register" class="btn waves-effect waves-light deep-orange lighten-2">Register</a></li>
+
+                {% endif %}
             </ul>
             <form class=" hide-on-med-and-down" id="form1">
                 <div class="input-field" style="max-width: 400pt;">
@@ -35,4 +73,7 @@
         </div>
     </nav>
 </div>
+<script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 <html>
+</body>

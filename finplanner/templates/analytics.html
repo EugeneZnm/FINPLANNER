@@ -3,43 +3,18 @@
 
 {% load month_labels %}
 {% block content %}
+<div class="container" style="margin-top:80px;">
 
     <div class="expense-analytics">
-        {% if menu_labels %}
-        <div class="analysis-menu">
-            <ul class="collection">
-                {% for label in menu_labels %}
-                  <li class="collection-item">
-                      {% if context_type == 'annually' %}
-                        <a class="annually" href="{% url 'finplanner:analytics'%}/{{label}}"> {{label}}</a>
-                      {% elif context_type == 'monthly'%}
 
-                        <a class="annually" href="{% url 'finplanner:analytics'%}/{{selected_year}}/{{label}}"> {{months|get_by_index:label}}</a>
-                      {% endif %}
-                  </li>
-                {% endfor%}
-                </ul>
-        </div>
-        {% endif %}
 
         {% if context_type == 'annually' or context_type == 'monthly' or context_type == 'daily' %}
             <div class="row">
 
-                {% if submenu %}
-                <div class="col s4 m2 sidebar">
-                     <div class="collection">
-                        <a href="#" class="collection-item active">{{x_axis_label}}</a>
-                         {% for label, amount in submenu %}
-                            <a href="#" class="collection-item">
-                                <i class="fa fa-bar-chart-o"></i> {{label}} <span class="badge">{{amount}}</span>
-                            </a>
-                        {% endfor %}
-                      </div>
-                </div>
-                {% endif %}
-                <div class="col m10">
+
+                <div class="col md-8">
                     {% if datasets %}
-                        <canvas id="myChart" height="150"></canvas>
+                        <canvas id="myChart" height="120"></canvas>
                         {% load django_tables2 %}
                         {%if expense_table_in_month_view%}
                             {% render_table expense_table_in_month_view%}
@@ -99,4 +74,6 @@
             </div>
             {% endif %}
     </div>
+  </div>
+
 {% endblock %}

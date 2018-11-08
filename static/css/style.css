@@ -1,3 +1,28 @@
+/* NAVBAR */
+#form1 {
+    margin-left: 200px;
+}
+
+.side-nav li a {
+    text-decoration: none;
+}
+
+#searchResults2 {
+    background-color: #666666;
+}
+
+#searchResults {
+    background-color: #666666;
+}
+
+.right li a {
+    padding-right: 2em;
+    text-decoration: none
+}
+
+/* ENDNAVBAR */
+
+
 /* NEW CSS */
 
 /*
@@ -269,6 +294,9 @@ span.badge {
 .add-expense-form .row .col{
   margin: 0px;
   padding: 0px 10px;
+}
+.dashboard{
+  background-color: black;
 }
 
 
