@@ -20,5 +20,8 @@
 
 
 "> Add Account</a> <br>
+{% for account in accounts%}
+{{account.name}} || {{account.budget}} <br>
+{% endfor %}
 
 {% endblock %}

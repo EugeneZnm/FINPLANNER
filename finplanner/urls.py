@@ -9,7 +9,8 @@ app_name = 'finplanner'
 urlpatterns = [
 
     # RESTRUCTURED VIEWS
-    path('', views.LandingView.landing, name ="landing"),
+    path('', views.index, name='index'),
+    path('landing', views.LandingView.landing, name ="landing"),
     path('new_account', views.new_account, name='new_account'),
 
     path('dashboard', login_required(views.Dashboard.index), name="dashboard"),

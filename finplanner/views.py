@@ -31,6 +31,11 @@ class LandingView():
     def landing(request):
         context = {}
         return render(request, "homepage.html", context)
+@login_required(login_url='/accounts/login/')
+def index(request):
+    accounts=Account.objects.all()
+    context={"accounts":accounts}
+    return render(request,'homepage.html',context)
 
 @login_required(login_url='/accounts/login/')
 def new_account(request):
@@ -259,7 +264,7 @@ class ExpenseUpdate(UpdateView):
         'date',
         'description',
         'type',
-        'payment_mode',
+        'category',
         'payment',
         'amount'
     ]

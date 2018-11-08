@@ -29,7 +29,7 @@ class ExpenseTableHelper(FormHelper):
         Field('date', placeholder='YYYY-MM-DD'),
         Field('description'),
         Field('type'),
-        Field('payment_mode'),
+        Field('category'),
         Field('payment'),
         Field('amount'),
         Submit('submit', 'Filter'),
@@ -45,7 +45,7 @@ class AddExpenseForm(ModelForm):
             'date',
             'description',
             'type',
-            'payment_mode',
+            'category',
             'payment',
             'amount'
         ]

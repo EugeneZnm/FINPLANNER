@@ -75,18 +75,18 @@ class Profile(models.Model):
         profile = Profile.objects.get(user = id)
         return profile
 class Expense(models.Model):
-    PAYMENT_MODE = (
-        ("M-Pesa", "M-Pesa"),
-        ("Cash", "Cash"),
-        ("Equity", "Equity"),
-        ("KCB", "KCB"),
-        ("National", "National"),
+    CATEGORY = (
+        ("Accomodation", "Accomodation"),
+        ("Food", "Food"),
+        ("Groceries", "Groceries"),
+        ("Transportation", "Transportation"),
+        ("Entertainment", "Entertainment"),
         )
 
     date = models.DateField()
     description = models.CharField(max_length=1000, null=True)
     type = models.CharField(max_length=30)
-    payment_mode = models.CharField(choices=PAYMENT_MODE,default="",blank=False,max_length=80)
+    category = models.CharField(choices=CATEGORY,default="",blank=False,max_length=80)
     payment = models.CharField(max_length=30)
     amount = models.FloatField()
     created_by = models.CharField(max_length=100)
