@@ -1,5 +1,7 @@
+{% extends 'base.html'%}
 {% load static %} {% load bootstrap4 %}
-{% load django_tables2 crispy_forms_tags %}
+{% load django_tables2%}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -10,10 +12,10 @@
           <div class="row">
             <form action="" method="POST">
                 {% csrf_token %}
-                {{ form }}
 
+                        {% bootstrap_form form %}
 
-                <button type="submit" class="btn">Start Account</button>
+                <button type="submit" class="btn">Add Expense</button>
             </form>
           </div>
         </div>
