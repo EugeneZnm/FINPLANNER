@@ -16,5 +16,6 @@ class ExpenseFilter(django_filters.FilterSet):
             'type',
             'payment',
             'category',
+            'account',
             'amount'
         )

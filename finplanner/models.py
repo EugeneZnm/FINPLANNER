@@ -27,6 +27,20 @@ class Account(models.Model):
     budget = models.IntegerField()
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name="accounts")
 
+    def budget_left(self):
+        expense_list = Expense.objects.filter(account = self)
+        total_expense = 0
+        for expense in expense_list:
+            total_expense += expense.amount
+        return self.budget - total_expense
+
+    def total_transactions(self):
+        budget_list = Account.objects.filter(budget=self)
+        total_budgets = 0
+        for budget in budget_list:
+            total_budgets += budget.budget
+        return self.budget + total_budgets
+
     def __str__(self):
         return self.name
 

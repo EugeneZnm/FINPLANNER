@@ -31,6 +31,7 @@ class ExpenseTableHelper(FormHelper):
         Field('type'),
         Field('category'),
         Field('payment'),
+        Field('account'),
         Field('amount'),
         Submit('submit', 'Filter'),
     )
@@ -47,7 +48,8 @@ class AddExpenseForm(ModelForm):
             'type',
             'category',
             'payment',
-            'amount'
+            'account',
+            'amount',
         ]
         widgets = {
             'date': DateInput(),
@@ -56,10 +58,12 @@ class AccountForm(forms.ModelForm):
     class Meta:
         model = Account
         exclude = ['user']
-# class ExpenseForm(forms.Form):
-#     title = forms.CharField()
-#     amount = forms.IntegerField()
-#     category = forms.CharField()
+class ExpenseForm(forms.Form):
+    date = forms.DateField()
+    description = forms.CharField()
+    type = forms.CharField()
+    category = forms.CharField()
+    amount = forms.IntegerField()
 #
 # class AccountForm(forms.ModelForm):
 #     class Meta:

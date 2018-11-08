@@ -21,7 +21,12 @@
 
 "> Add Account</a> <br>
 {% for account in accounts%}
-{{account.name}} || {{account.budget}} <br>
+
+<a href="{% url 'finplanner:detail' id=account.id %}">{{account.name}}</a>
+
+
+
+ <br>
 {% endfor %}
 
 {% endblock %}

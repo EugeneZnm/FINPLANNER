@@ -55,6 +55,37 @@ def new_account(request):
         form = AccountForm()
         # context= {"form":form}
     return render(request, 'add-account.html',{"form":form})
+
+def account_detail(request, id):
+    account = get_object_or_404(Account, pk=id)
+
+    # expense_list = Account.expenses.all()
+    # expense_list = Expense.objects.all()
+
+
+    if request.method == 'GET':
+        return render(request, 'account-detail.html', {'account':account})
+
+    elif request.method == 'POST':
+        form = ExpenseForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            description = form.cleaned_data['description']
+            category = form.cleaned_data['category']
+            payment = form.cleaned_data['payment']
+            account = form.cleaned_data['account']
+            amount = form.cleaned_data['amount']
+
+            Expense.objects.create(date=date,description=description,category=category,payment=payment,account=account,amount=amount).save()
+
+    elif request.method == 'DELETE':
+        id = json.loads(request.body)['id']
+        expense = get_object_or_404(Expense, id=id)
+        expense.delete()
+
+        return HttpResponse('')
+
+    return HttpResponseRedirect(reverse('detail',args=(account.id,)))
 class Dashboard():
     template_name = "dashboard.html"
 
