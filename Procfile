@@ -1,0 +1,1 @@
+web: gunicorn finproject.wsgi
