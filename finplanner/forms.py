@@ -52,7 +52,10 @@ class AddExpenseForm(ModelForm):
         widgets = {
             'date': DateInput(),
         }
-
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        exclude = ['user']
 # class ExpenseForm(forms.Form):
 #     title = forms.CharField()
 #     amount = forms.IntegerField()

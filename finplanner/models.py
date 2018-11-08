@@ -24,10 +24,11 @@ class Bank(models.Model):
         bank = cls.objects.filter(name__icontains = search_term)
 class Account(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True, blank=True,default="")
     budget = models.IntegerField()
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name="accounts")
 
+    def __str__(self):
+        return self.name
 
 class Profile(models.Model):
 

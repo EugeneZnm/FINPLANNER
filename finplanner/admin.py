@@ -7,3 +7,4 @@ admin.site.register(Profile)
 
 admin.site.register(Expense)
 admin.site.register(Bank)
+admin.site.register(Account)

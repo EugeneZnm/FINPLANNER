@@ -10,6 +10,7 @@ urlpatterns = [
 
     # RESTRUCTURED VIEWS
     path('', views.LandingView.landing, name ="landing"),
+    path('new_account', views.new_account, name='new_account'),
 
     path('dashboard', login_required(views.Dashboard.index), name="dashboard"),
     path('expense/add', login_required(views.ExpenseCreate.as_view()), name="create_expense"),

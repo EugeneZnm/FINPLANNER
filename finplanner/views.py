@@ -31,6 +31,25 @@ class LandingView():
     def landing(request):
         context = {}
         return render(request, "homepage.html", context)
+
+@login_required(login_url='/accounts/login/')
+def new_account(request):
+    # bank = get_object_or_404(Bank, pk=bank_id)
+    current_user = request.user
+    if request.method == 'POST':
+        form = AccountForm(request.POST,request.FILES)
+        if form.is_valid():
+            new_account = form.save(commit=False)
+            new_account.user = current_user
+            # new_account.bank=bank
+            assert isinstance(new_account.save, object)
+            new_account.save()
+            # return redirect('landing')
+            return HttpResponseRedirect(reverse_lazy('finplanner:landing'))
+    else:
+        form = AccountForm()
+        # context= {"form":form}
+    return render(request, 'add-account.html',{"form":form})
 class Dashboard():
     template_name = "dashboard.html"
 
