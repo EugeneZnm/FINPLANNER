@@ -22,6 +22,12 @@ class Bank(models.Model):
     @classmethod
     def find_bank(cls,search_term):
         bank = cls.objects.filter(name__icontains = search_term)
+class Account(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True, blank=True,default="")
+    budget = models.IntegerField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name="accounts")
+
 
 class Profile(models.Model):
 
@@ -71,7 +77,7 @@ class Expense(models.Model):
     PAYMENT_MODE = (
         ("M-Pesa", "M-Pesa"),
         ("Cash", "Cash"),
-        ("Eqity", "Eqity"),
+        ("Equity", "Equity"),
         ("KCB", "KCB"),
         ("National", "National"),
         )
@@ -84,6 +90,7 @@ class Expense(models.Model):
     amount = models.FloatField()
     created_by = models.CharField(max_length=100)
     created_at = models.DateField()
+    account=models.ForeignKey(Account,on_delete=models.CASCADE,null=True,blank=True,related_name="expenses")
 
 
     def __str__(self):
