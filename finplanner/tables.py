@@ -18,8 +18,8 @@ class ExpenseTable(tables.Table):
         fields = (
             'date',
             'description',
-            'type',
-            'payment',
+            # 'type',
+            # 'payment',
             'category',
             'account',
             'amount'
