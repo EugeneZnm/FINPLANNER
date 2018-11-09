@@ -19,14 +19,14 @@
         <section class="section section-stats">
             <div class="row">
                 <div class="col s12 m12 l4">
-                    <div class="card-panel">
-                        <h6>Total Budget</h6>
-                        <h3>Ksh. {{ account.budget  }}</h3>
+                    <div class="card-panel" >
+                        <h6 style="color:blue;">Total Budget</h6>
+                        <h3 style="color:green;">Ksh. {{ account.budget  }}</h3>
                     </div>
                 </div>
                 <div class="col s12 m12 l4">
                     <div class="card-panel">
-                        <h6>Budget Left</h6>
+                        <h6 style="color:blue;">Budget Left</h6>
                         {% if account.budget_left > 0 %}
                         <h3 class="bold green-text">Ksh. {{ account.budget_left }}</h3>
                         {% elif account.budget_left == 0 %}
@@ -38,8 +38,8 @@
                 </div>
                 <div class="col s12 m12 l4">
                     <div class="card-panel">
-                        <h6>Total Transactions</h6>
-                        <h3>{{ account.expenses.count }}</h3>
+                        <h6 style="color:blue;">Total Transactions</h6>
+                        <h3 style="color:black;">{{ account.expenses.count }}</h3>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <ul class="z-depth-1">
                 {% for expense in account.expenses.all %}
                 <li>
-                    <div class="card-panel z-depth-0 expense">
+                    <div class="card-panel z-depth-0 expense" style="color:blue;">
                         <div class="row">
                             <div class="col l6">
                                 <span class="title">{{ expense.description }}</span>

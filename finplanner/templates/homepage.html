@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container" style="margin-top:20px;">
-<section class="section section-stats">
+<section>
   <h4 class="text-center">MY ACCOUNTS</h4>
     <div class="row">
       <div class="col-md-4"></div>
@@ -27,7 +27,7 @@
         <a href="{% url 'finplanner:detail' id=account.id %}">
 
           <div class="card-panel">
-              <h3> {{ account.name  }}</h3>
+              <h3 style="color:blue;"> {{ account.name  }}</h3>
                 <h5 class="bold green-text">Ksh. {{ account.budget_left  }}</h5>
           </div>
         </a>
