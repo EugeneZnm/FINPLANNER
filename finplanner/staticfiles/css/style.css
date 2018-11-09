@@ -99,7 +99,7 @@ span.badge {
 /* Landing */
 /*-------------------------------------------------------------- #General --------------------------------------------------------------*/
  body{
-    background-color: #323237;
+    /* background-color: #323237; */
     color: #ffffff;
      font-size: 18px;
      font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
@@ -233,7 +233,7 @@ span.badge {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #1a1a1f;
+    /* background-color: #1a1a1f; */
     color: #000;
     overflow-x: hidden;
     padding-top: 100px;

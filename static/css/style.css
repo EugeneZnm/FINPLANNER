@@ -99,8 +99,8 @@ span.badge {
 /* Landing */
 /*-------------------------------------------------------------- #General --------------------------------------------------------------*/
  body{
-    background-color: #323237;
-    color: #ffffff;
+    color: black;
+    background-color:  rgb(213, 236, 227);
      font-size: 18px;
      font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
      overflow-x:hidden;
