@@ -7,7 +7,7 @@ certifi==2018.8.24
 chardet==3.0.4
 command-not-found==0.3
 confusable-homoglyphs==3.2.0
-cryptography==2.1.4
+cryptography==3.2
 cupshelpers==1.0
 defer==1.0.6
 distro-info==0.18
